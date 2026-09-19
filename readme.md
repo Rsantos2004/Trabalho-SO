@@ -4,7 +4,7 @@ Desenvolva um programa que processe todos os arquivos de log e contabilize a qua
 
 ## Resultado esperado
 
-**Total de arquivos:** 100
+**Total de arquivos:** 1000
 
 ```text
 INFO:     245.821
