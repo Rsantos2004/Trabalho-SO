@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 
 PASTA = "dados"
 
-QUANTIDADE_ARQUIVOS = 100
-LINHAS_MIN = 1000
-LINHAS_MAX = 5000
+QUANTIDADE_ARQUIVOS = 1000
+LINHAS_MIN = 4000
+LINHAS_MAX = 8000
 
 NIVEIS = ["INFO", "WARNING", "ERROR"]
 

@@ -43,7 +43,7 @@ O objetivo do trabalho é analisar como cada abordagem impacta o tempo de proces
 python gerador_arquivos.py
 ```
 
-6. Confirme que a pasta `dados/` foi criada e que os 100 arquivos foram gerados corretamente.
+6. Confirme que a pasta `dados/` foi criada e que os 1000 arquivos foram gerados corretamente.
 7. Implemente a versão sequencial para contar as mensagens `INFO`, `WARNING` e `ERROR`.
 8. Implemente a versão utilizando processos e execute-a para comparar o tempo de processamento.
 9. Implemente a versão utilizando threads e execute-a também para analisar o desempenho.
