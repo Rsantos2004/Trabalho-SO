@@ -31,9 +31,29 @@ ERROR:     34.851
 O objetivo do trabalho é analisar como cada abordagem impacta o tempo de processamento e também comparar a complexidade e o comportamento de cada técnica em sistemas operacionais.
 
 
+## Passo a passo do trabalho
+
+1. Clone o repositório para sua máquina local.
+2. Verifique se há uma versão do Python 3 instalada e disponível no terminal.
+3. Abra os arquivos principais do projeto e entenda a estrutura do código, como `gerador_arquivos.py`, `process.py` e `threads.py`.
+4. Edite os arquivos iniciais conforme a lógica do programa, definindo como os logs serão lidos e processados.
+5. Gere os arquivos de log com o comando abaixo:
+
+```bash
+python gerador_arquivos.py
+```
+
+6. Confirme que a pasta `dados/` foi criada e que os 100 arquivos foram gerados corretamente.
+7. Implemente a versão sequencial para contar as mensagens `INFO`, `WARNING` e `ERROR`.
+8. Implemente a versão utilizando processos e execute-a para comparar o tempo de processamento.
+9. Implemente a versão utilizando threads e execute-a também para analisar o desempenho.
+10. Registre os tempos de execução de cada uma das versões em uma tabela ou seção do README.
+11. Compare os resultados e identifique qual abordagem foi mais rápida e por quê.
+12. Atualize o README com a descrição do projeto, instruções de execução, resultados obtidos e as conclusões finais.
+
 ## Gerar os arquivos
 
-Este projeto foi desenvolvido com Python 3.11.4.
+O projeto foi testado com Python 3.11.4, mas, em geral, versões do Python 3 também devem funcionar corretamente, desde que o ambiente tenha as bibliotecas padrão necessárias.
 
 Para gerar os 100 arquivos de log, execute:
 
@@ -42,3 +62,5 @@ python gerador_arquivos.py
 ```
 
 Esse script cria a pasta `dados/` e gera todos os arquivos necessários para o processamento.
+
+
