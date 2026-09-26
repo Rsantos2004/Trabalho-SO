@@ -1,12 +1,11 @@
 import time
 from pathlib import Path
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 
 
 
 def medir_tempo_execucao(func):
-    # decorator que calcula e imprime o tempo de execução de uma função.
-    # basta executar a função com o decorator @medir_tempo_execucao acima dela.
-    
     def wrapper(*args, **kwargs):
         inicio = time.perf_counter()
         resultado = func(*args, **kwargs)
@@ -18,21 +17,34 @@ def medir_tempo_execucao(func):
 
 
 def contar_mensagens_arquivo(caminho_do_arquivo):
-    """Conta quantas mensagens INFO, WARNING e ERROR há em um único arquivo."""
-    contagem = 0
+    contagem = Counter()
+
+    with open(caminho_do_arquivo, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            if "ERROR" in linha:
+                contagem["ERROR"] += 1
+            elif "WARNING" in linha:
+                contagem["WARNING"] += 1
+            elif "INFO" in linha:
+                contagem["INFO"] += 1
 
     return contagem
 
 
 @medir_tempo_execucao
 def processar_logs_threads(pasta="dados", max_workers=None):
-    """Processa todos os arquivos log em paralelo usando threads."""
     diretorio = Path(pasta)
     arquivos = sorted(diretorio.glob("*.log"))
 
     print(f"Processando {len(arquivos)} arquivos...")
-    
-    return 0
+
+    total = Counter()
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for contagem in executor.map(contar_mensagens_arquivo, arquivos):
+            total.update(contagem)
+
+    return total
 
 
 def main():
@@ -40,7 +52,10 @@ def main():
     resultado = processar_logs_threads( max_workers=8)
 
     print("Resultado do processamento com threads:")
-
+    print(f"Total de arquivos: {len(list(Path('dados').glob('*.log')))}")
+    print(f"INFO:    {resultado['INFO']:>7}")
+    print(f"WARNING: {resultado['WARNING']:>7}")
+    print(f"ERROR:   {resultado['ERROR']:>7}")
 
 
 if __name__ == "__main__":
