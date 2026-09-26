@@ -1,66 +1,33 @@
-# Trabalho de SO
+# Trabalho de SO — Processamento de Logs
 
-Desenvolva um programa que processe todos os arquivos de log e contabilize a quantidade de mensagens **INFO**, **WARNING** e **ERROR**.
+Programa que processa 1000 arquivos de log e conta as mensagens `INFO`, `WARNING` e `ERROR`, em três versões: sequencial, com processos (`multiprocessing`) e com threads (`ThreadPoolExecutor`).
 
-## Resultado esperado
-
-**Total de arquivos:** 1000
-
-```text
-INFO:     245.821
-WARNING:   69.372
-ERROR:     34.851
-```
-
-## Versões do programa
-
-1. Processamento sequencial
-   - Lê e processa os arquivos um por um, na ordem em que aparecem.
-   - É a versão mais simples e serve como referência para comparar o desempenho das outras.
-
-2. Processamento utilizando processos
-   - Cria múltiplos processos para processar os arquivos em paralelo.
-   - Cada processo trabalha de forma independente, o que pode acelerar a execução em tarefas mais pesadas de CPU.
-   - Essa abordagem é útil para comparar o ganho de desempenho ao usar paralelismo em nível de processo.
-
-3. Processamento utilizando threads
-   - Usa várias threads dentro do mesmo processo para processar os arquivos simultaneamente.
-   - É mais leve que criar processos e pode ser vantajoso em tarefas que envolvem mais espera de I/O, como leitura de arquivos.
-   - Essa versão ajuda a observar a diferença entre concorrência com threads e com processos.
-
-O objetivo do trabalho é analisar como cada abordagem impacta o tempo de processamento e também comparar a complexidade e o comportamento de cada técnica em sistemas operacionais.
-
-
-## Passo a passo do trabalho
-
-1. Clone o repositório para sua máquina local.
-2. Verifique se há uma versão do Python 3 instalada e disponível no terminal.
-3. Abra os arquivos principais do projeto e entenda a estrutura do código, como `gerador_arquivos.py`, `process.py` e `threads.py`.
-4. Edite os arquivos iniciais conforme a lógica do programa, definindo como os logs serão lidos e processados.
-5. Gere os arquivos de log com o comando abaixo:
+## Como rodar
 
 ```bash
-python gerador_arquivos.py
+python3 gerador_arquivos.py 
+python3 sequencial.py
+python3 process.py
+python3 threads.py
 ```
 
-6. Confirme que a pasta `dados/` foi criada e que os 1000 arquivos foram gerados corretamente.
-7. Implemente a versão sequencial para contar as mensagens `INFO`, `WARNING` e `ERROR`.
-8. Implemente a versão utilizando processos e execute-a para comparar o tempo de processamento.
-9. Implemente a versão utilizando threads e execute-a também para analisar o desempenho.
-10. Registre os tempos de execução de cada uma das versões em uma tabela ou seção do README.
-11. Compare os resultados e identifique qual abordagem foi mais rápida e por quê.
-12. Atualize o README com a descrição do projeto, instruções de execução, resultados obtidos e as conclusões finais.
+## Resultados
 
-## Gerar os arquivos
-
-O projeto foi testado com Python 3.11.4, mas, em geral, versões do Python 3 também devem funcionar corretamente, desde que o ambiente tenha as bibliotecas padrão necessárias.
-
-Para gerar os 100 arquivos de log, execute:
-
-```bash
-python gerador_arquivos.py
+```
+Total de arquivos: 1000
+INFO:    4179162
+WARNING: 1193929
+ERROR:    596422
 ```
 
-Esse script cria a pasta `dados/` e gera todos os arquivos necessários para o processamento.
+| Versão     | Tempo         |
+|------------|--------------:|
+| Sequencial | 0,8829 s      |
+| Processos  | 0,2702 s      |
+| Threads    | 1,0419 s      |
 
+## Conclusão
 
+**Processos** foi a versão mais rápida: cada processo tem seu próprio interpretador Python, então o trabalho de contar as linhas roda de verdade em paralelo em vários núcleos da CPU.
+
+**Threads** ficou mais lenta até que a sequencial. Isso acontece porque o GIL do Python só deixa uma thread executar código Python por vez, e contar as mensagens é justamente trabalho de CPU (não só de I/O). As threads só adicionaram overhead de criação e do lock, sem ganho real, então para essa tarefa, processos venceram porque o gargalo é CPU, não I/O.
